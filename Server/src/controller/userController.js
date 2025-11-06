@@ -1,30 +1,33 @@
-const { webHook } = require('svix')
+const { Webhook } = require('svix');
+const User = require('../models/userModel');
+require('dotenv').config();
 
 const clerkWebHooksHandle = async (req, res) => {
+    console.log({clerkWebHooksHandle});
     try {
         const webHookSecret = process.env.CLERK_WEBHOOK_SECRET;
         if (!webHookSecret) {
-            console.error("CLERK_SECRET_KEY not configured");
-            res.status(500).json({
+            console.error("CLERK_WEBHOOK_SECRET not configured");
+            return res.status(500).json({
                 statusCode: 500,
-                message: "CLERK_SECRET_KEY not configured",
-                error: error,
-            })
+                message: "CLERK_WEBHOOK_SECRET not configured",
+            });
         }
-        //Get WebHOOK headers
+
+        // Get Webhook headers
         const svixID = req.headers["svix-id"];
         const svixTimestamp = req.headers["svix-timestamp"];
         const svixSignature = req.headers["svix-signature"];
 
-        if (!svixID || svixTimestamp || svixSignature) {
-            res.status(500).json({
-                statusCode: 404,
-                message: "Missing Webhook Hearders",
-                error: error,
-            })
+        if (!svixID || !svixTimestamp || !svixSignature) {
+            return res.status(400).json({
+                statusCode: 400,
+                message: "Missing Webhook Headers",
+            });
         }
-        // Create Webhok Intance
-        const wh = new webHook(webHookSecret);
+
+        // Verify webhook
+        const wh = new Webhook(webHookSecret);
         let evt;
         try {
             evt = wh.verify(JSON.stringify(req.body), {
@@ -33,20 +36,106 @@ const clerkWebHooksHandle = async (req, res) => {
                 "svix-signature": svixSignature,
             });
         } catch (err) {
-            console.error("webhook verification failed".err.message);
-            res.status(404).json({
-                statusCode: 404,
-                message: "Invalid Signature",
-                error: err,
-            })
+            console.error("Webhook verification failed:", err.message);
+            return res.status(400).json({
+                statusCode: 400,
+                message: "Invalid signature",
+                error: err.message,
+            });
         }
+
+        // Clerk event data
+        const { id, email_addresses, first_name, last_name, image_url } = evt.data;
+        const eventType = evt.type;
+
+        console.log(` Webhook received: ${eventType} for user ${id}`);
+
+        switch (eventType) {
+            case 'user.created':
+                await userCreate(id, email_addresses, first_name, last_name, image_url);
+                break;
+            case 'user.updated':
+                await userUpdate(id, email_addresses, first_name, last_name, image_url);
+                break;
+            case 'user.deleted':
+                await userDelete(id);
+                break;
+            default:
+                console.log(` Unhandled event type: ${eventType}`);
+        }
+        res.status(200).json({
+            statusCode: 201,
+            message: "Webhook handled successfully",
+
+        });
+
     } catch (error) {
+        console.error("Internal Server Error:", error.message);
         res.status(500).json({
             statusCode: 500,
             message: "Internal Server Error",
-            error: error,
-        })
+            error: error.message,
+        });
     }
-}
+};
 
-module.exports =clerkWebHooksHandle 
+//  Create new user
+const userCreate = async (clerkID, email, firstName, lastName, imageUrl) => {
+    try {
+        const newUser = new User({
+            clerkID,
+            email: email[0].email_address,
+            firstName,
+            lastName,
+            image_Url: imageUrl,
+            role: "user",
+        });
+        await newUser.save();
+        console.log(` User created in MongoDB: ${clerkID}`);
+    } catch (error) {
+        console.log(` Error creating user:`, error.message);
+        throw error;
+    }
+};
+
+//  Update existing user
+const userUpdate = async (clerkID, email, firstName, lastName, imageUrl) => {
+    try {
+        const updatedUser = await User.findOneAndUpdate(
+            { clerkID },
+            {
+                email: email[0].email_address,
+                firstName,
+                lastName,
+                image_Url: imageUrl,
+            },
+            { new: true }
+        );
+
+        if (updatedUser) {
+            console.log(`User updated in MongoDB: ${clerkID}`);
+        } else {
+            console.log(`User not found for update: ${clerkID}`);
+        }
+    } catch (error) {
+        console.log(` Error updating user:`, error.message);
+        throw error;
+    }
+};
+
+//  Delete user
+const userDelete = async (clerkID) => {
+    try {
+        const deletedUser = await User.findOneAndDelete({ clerkID });
+        if (deletedUser) {
+            console.log(` User deleted from MongoDB: ${clerkID}`);
+        } else {
+            console.log(` User not found for deletion: ${clerkID}`);
+        }
+    } catch (error) {
+        console.log(` Error deleting user:`, error.message);
+        throw error;
+    }
+};
+
+module.exports = clerkWebHooksHandle;
