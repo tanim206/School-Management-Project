@@ -1,6 +1,5 @@
 const express = require('express');
 require("dotenv").config();
-// const dbConnect = require('./src/config/dataBase');
 const { clerkMiddleware } = require('@clerk/express');
 const userRouter = require('./src/routes/userRouter');
 const dbconnect = require('./src/config/dataBase');
