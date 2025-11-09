@@ -1,13 +1,30 @@
 import { Outlet } from "react-router";
 import Sidebar from "../components/dashboard/shared/Sidebar";
+import { Menu } from "lucide-react";
+import { useState } from "react";
 const DashboardLayout = () => {
+  const [open, setOpen] = useState(false);
   return (
     <div className="flex">
-      <div className="min-h-screen bg-gray-50 w-[20%]">
-        <Sidebar />
+      {/* dekstop screen */}
+      <div className="min-h-screen hidden md:block bg-gray-50 w-[20%]">
+        <Sidebar setOpen={setOpen} />
       </div>
-      <div className=" w-[80%] bg-amber-100 p-2">
-        <Outlet />
+      {/* mobile screen */}
+      <div
+        className={`md:hidden fixed transform duration-300 ${
+          open ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <Sidebar setOpen={setOpen} />
+      </div>
+      <div className="flex p-4 gap-2 flex-col">
+        <div className="md:hidden">
+          <Menu onClick={() => setOpen(!open)} />
+        </div>
+        <div className=" w-[80%] bg-amber-100 ">
+          <Outlet />
+        </div>
       </div>
     </div>
   );
