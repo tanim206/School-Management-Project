@@ -80,10 +80,10 @@ const clerkWebHooksHandle = async (req, res) => {
 };
 
 //  Create new user
-const userCreate = async (clerkID, email, firstName, lastName, imageUrl) => {
+const userCreate = async (clerkId, email, firstName, lastName, imageUrl) => {
     try {
         const newUser = new User({
-            clerkID,
+            clerkId,
             email: email[0].email_address,
             firstName,
             lastName,
@@ -91,7 +91,7 @@ const userCreate = async (clerkID, email, firstName, lastName, imageUrl) => {
             role: "user",
         });
         await newUser.save();
-        console.log(` User created in MongoDB: ${clerkID}`);
+        console.log(` User created in MongoDB: ${clerkId}`);
     } catch (error) {
         console.log(` Error creating user:`, error.message);
         throw error;
@@ -99,10 +99,10 @@ const userCreate = async (clerkID, email, firstName, lastName, imageUrl) => {
 };
 
 //  Update existing user
-const userUpdate = async (clerkID, email, firstName, lastName, imageUrl) => {
+const userUpdate = async (clerkId, email, firstName, lastName, imageUrl) => {
     try {
         const updatedUser = await User.findOneAndUpdate(
-            { clerkID },
+            { clerkId },
             {
                 email: email[0].email_address,
                 firstName,
@@ -113,9 +113,9 @@ const userUpdate = async (clerkID, email, firstName, lastName, imageUrl) => {
         );
 
         if (updatedUser) {
-            console.log(`User updated in MongoDB: ${clerkID}`);
+            console.log(`User updated in MongoDB: ${clerkId}`);
         } else {
-            console.log(`User not found for update: ${clerkID}`);
+            console.log(`User not found for update: ${clerkId}`);
         }
     } catch (error) {
         console.log(` Error updating user:`, error.message);
@@ -124,13 +124,13 @@ const userUpdate = async (clerkID, email, firstName, lastName, imageUrl) => {
 };
 
 //  Delete user
-const userDelete = async (clerkID) => {
+const userDelete = async (clerkId) => {
     try {
-        const deletedUser = await User.findOneAndDelete({ clerkID });
+        const deletedUser = await User.findOneAndDelete({ clerkId });
         if (deletedUser) {
-            console.log(` User deleted from MongoDB: ${clerkID}`);
+            console.log(` User deleted from MongoDB: ${clerkId}`);
         } else {
-            console.log(` User not found for deletion: ${clerkID}`);
+            console.log(` User not found for deletion: ${clerkId}`);
         }
     } catch (error) {
         console.log(` Error deleting user:`, error.message);

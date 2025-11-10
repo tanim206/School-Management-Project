@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const userSchema = new Schema({
-    clerkID: {
+    clerkId: {
         type: String,
         require: true
     },
@@ -28,7 +28,7 @@ const userSchema = new Schema({
     },
 },
     { timestamps: true })
-    const user = model("user", userSchema)
+    const User = model("User", userSchema)
 
 
-    module.exports=user
+    module.exports=User
