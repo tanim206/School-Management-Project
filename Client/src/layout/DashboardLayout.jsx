@@ -5,16 +5,15 @@ import { useState } from "react";
 const DashboardLayout = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="flex">
+    <div className="flex bg-gray-200">
       {/* dekstop screen */}
-      <div className="min-h-screen hidden md:block bg-gray-50 w-[20%]">
+      <div className="min-h-screen hidden bg-green-700 p-4 md:block w-[20%]">
         <Sidebar setOpen={setOpen} />
       </div>
       {/* mobile screen */}
       <div
-        className={`md:hidden fixed transform duration-300 ${
-          open ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className={`md:hidden fixed transform duration-300 ${open ? "translate-x-0" : "-translate-x-full"
+          }`}
       >
         <Sidebar setOpen={setOpen} />
       </div>
@@ -22,7 +21,7 @@ const DashboardLayout = () => {
         <div className="md:hidden">
           <Menu onClick={() => setOpen(!open)} />
         </div>
-        <div className=" w-[80%] bg-amber-100 ">
+        <div className=" w-full bg-red-100 ">
           <Outlet />
         </div>
       </div>

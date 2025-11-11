@@ -8,6 +8,7 @@ import Setting from "../components/dashboard/settings/Setting";
 import Result from "../components/dashboard/results/Result";
 import NoticeBoard from "../components/dashboard/noticeBoard/NoticeBoard";
 import Profile from "../components/dashboard/profile/Profile";
+import Home from "../components/Home/Home";
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <App />,
+      },
+      {
+        path:"/home",
+        element: <Home />,
       },
     ],
   },

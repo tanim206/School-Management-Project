@@ -25,19 +25,22 @@ const Sidebar = ({ setOpen }) => {
   ];
 
   return (
-    <div>
-      <div className="flex justify-between gap-2.5 items-center bg-orange-400 px-2 ">
+    <div className="h-screen bg-gradient-to-b from-green-800 via-green-700 to-green-900">
+      {/* Header */}
+      <div className="flex justify-between gap-2.5 items-center bg-green-600 px-2">
         <Link
           to="/"
-          className=" font-semibold text-white py-2 text-center text-[18px] "
+          className="font-semibold text-white py-2 text-center text-[18px]"
         >
           School Management System
         </Link>
         <X
           onClick={() => setOpen(false)}
-          className="md:hidden text-white bg-red-500"
+          className="md:hidden text-white bg-green-800 rounded p-1 cursor-pointer"
         />
       </div>
+
+      {/* Routes */}
       <ul>
         {routes.map((item, index) => (
           <NavLink
@@ -46,12 +49,12 @@ const Sidebar = ({ setOpen }) => {
             key={index}
             className={({ isActive }) =>
               isActive
-                ? "flex items-center bg-sky-600 text-white shadow  p-3 gap-1"
-                : "flex items-center p-1 gap-1 m-2"
+                ? "flex items-center bg-green-500 text-white shadow-md p-3 gap-2 rounded-md mx-2 my-1"
+                : "flex items-center p-3 gap-2 mx-2 my-1 text-white/90 hover:bg-green-600/40 rounded-md transition-all duration-200"
             }
           >
             <span style={{ fontSize: "18px" }}>{item.icon}</span>
-            <span>{item.router}</span>
+            <span className="font-medium">{item.router}</span>
           </NavLink>
         ))}
       </ul>
