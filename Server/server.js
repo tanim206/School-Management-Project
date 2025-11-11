@@ -3,6 +3,7 @@ require("dotenv").config();
 const { clerkMiddleware } = require('@clerk/express');
 const userRouter = require('./src/routes/userRouter');
 const dbconnect = require('./src/config/dataBase');
+const noticeRouter = require('./src/routes/noticeRouter');
 const app = express();
 const PORT = process.env.portNumber || 4000;
 
@@ -15,7 +16,13 @@ app.use(clerkMiddleware({
 app.get("/", (req, res) => {
     res.send("School Management Server is Running ...")
 })
-app.use("/api/v1/user", userRouter)
+
+// ***** URL
+
+app.use("/api/v1/user", userRouter) // 01
+app.use("/api/v1/notice", noticeRouter) // 02
+
+
 app.listen(PORT, async () => {
     try {
         await dbconnect()
