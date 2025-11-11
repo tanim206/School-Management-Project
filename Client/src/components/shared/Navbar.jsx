@@ -11,8 +11,6 @@ import { MdDashboard } from "react-icons/md";
 import { AnimatePresence, motion } from "framer-motion";
 import { FaRegCircleUser } from "react-icons/fa6";
 
-const MAIN_COLOR = "#00b85c"; // Green tone
-
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
@@ -24,17 +22,18 @@ const Navbar = () => {
   ];
 
   return (
-    <nav
-      className="fixed top-0 left-0 w-full shadow-md z-50 bg-gradient-to-l from-green-800 via-green-700 to-green-900"
-    >
+    <nav className="fixed top-0 left-0 w-full shadow-md z-50 bg-gradient-to-l from-black via-neutral-900 to-zinc-900">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Left: Logo */}
-          <Link to="/" className="flex items-center gap-2 text-white font-semibold text-xl tracking-tight">
-            <span className="text-4xl text-green-300">
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-white font-semibold text-xl tracking-tight"
+          >
+            <span className="text-4xl text-white/70">
               <BiLogoDeviantart />
             </span>
-            <span>Kentasoft</span>
+            <span>SchoolMS</span>
           </Link>
 
           {/* Middle: Nav Items (Desktop) */}
@@ -46,8 +45,8 @@ const Navbar = () => {
                 className={({ isActive }) =>
                   `px-3 py-1.5 rounded-md transition-all duration-200 ${
                     isActive
-                      ? " text-white bg-green-600/40 "
-                      : "text-white/90 hover:text-white hover:bg-green-600/40"
+                      ? "bg-white text-black shadow-md"
+                      : "text-gray-300 hover:text-white hover:bg-white/10"
                   }`
                 }
               >
@@ -60,7 +59,7 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-4">
             <Link
               to="/dashboard"
-              className="flex items-center text-sm gap-2 px-4 py-1.5 bg-white text-green-700 font-medium rounded-md hover:bg-gray-100 transition"
+              className="flex items-center text-sm gap-2 px-4 py-1.5 bg-white text-black font-medium rounded-md hover:bg-gray-100 transition"
             >
               <MdDashboard className="text-lg" />
               Dashboard
@@ -68,14 +67,16 @@ const Navbar = () => {
 
             <SignedOut>
               <SignInButton>
-                <button className="text-2xl text-white cursor-pointer duration-300 transition hover:opacity-90">
+                <button className="text-2xl text-white cursor-pointer duration-300 transition hover:opacity-80">
                   <FaRegCircleUser />
                 </button>
               </SignInButton>
             </SignedOut>
 
             <SignedIn>
-              <UserButton appearance={{ elements: { avatarBox: "w-9 h-9" } }} />
+              <UserButton
+                appearance={{ elements: { avatarBox: 'w-9 h-9' } }}
+              />
             </SignedIn>
           </div>
 
@@ -113,7 +114,7 @@ const Navbar = () => {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden border-t border-white/20 bg-green-700"
+            className="md:hidden border-t border-white/20 bg-black"
           >
             <ul className="flex flex-col items-center space-y-4 py-4 text-white font-medium">
               {navItem.map((item) => (
@@ -124,8 +125,8 @@ const Navbar = () => {
                   className={({ isActive }) =>
                     `transition-all duration-200 px-3 py-1.5 rounded-md ${
                       isActive
-                        ? "bg-green-500 text-white shadow-md"
-                        : "hover:bg-green-600/40"
+                        ? "bg-white text-black shadow-md"
+                        : "hover:bg-white/10"
                     }`
                   }
                 >
@@ -137,7 +138,7 @@ const Navbar = () => {
               <Link
                 to="/dashboard"
                 onClick={() => setOpen(false)}
-                className="flex items-center gap-2 bg-white text-green-700 px-6 py-2 rounded-md font-medium hover:bg-gray-100 transition"
+                className="flex items-center gap-2 bg-white text-black px-6 py-2 rounded-md font-medium hover:bg-gray-100 transition"
               >
                 <MdDashboard className="text-md" />
                 Dashboard
@@ -146,7 +147,7 @@ const Navbar = () => {
               {/* Clerk Buttons */}
               <SignedOut>
                 <SignInButton>
-                  <button className="px-6 py-2 border border-white text-white font-medium rounded-md hover:bg-white hover:text-green-700 transition">
+                  <button className="px-6 py-2 border border-white text-white font-medium rounded-md hover:bg-white hover:text-black transition">
                     Sign In
                   </button>
                 </SignInButton>
