@@ -1,10 +1,11 @@
 
+import Home from "./components/Home/Home";
 import Navbar from "./components/shared/Navbar";
 
 const App = () => {
   return (
     <div>
-      <Navbar />
+    <Home/>
     </div>
   );
 };
