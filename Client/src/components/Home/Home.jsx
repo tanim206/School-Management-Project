@@ -45,6 +45,7 @@ const Home = () => {
           >
             Learn More
           </Link>
+          
         </motion.div>
       </section>
 

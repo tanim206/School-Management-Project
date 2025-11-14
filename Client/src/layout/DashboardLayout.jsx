@@ -5,7 +5,7 @@ import { useState } from "react";
 const DashboardLayout = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="flex bg-red-200">
+    <div className="flex ">
       {/* dekstop screen */}
       <div className="min-h-screen hidden md:block w-[20%]">
         <Sidebar setOpen={setOpen} />
@@ -21,7 +21,7 @@ const DashboardLayout = () => {
         <div className="md:hidden">
           <Menu onClick={() => setOpen(!open)} />
         </div>
-        <div className=" w-full bg-red-400 ">
+        <div className=" w-full  ">
           <Outlet />
         </div>
       </div>
