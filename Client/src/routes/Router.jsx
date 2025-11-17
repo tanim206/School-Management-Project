@@ -9,6 +9,8 @@ import Result from "../components/dashboard/results/Result";
 import NoticeBoard from "../components/dashboard/noticeBoard/NoticeBoard";
 import Profile from "../components/dashboard/profile/Profile";
 import Home from "../components/Home/Home";
+import NoticeAll from "../components/dashboard/noticeBoard/NoticeAll";
+import AddNotice from "../components/dashboard/noticeBoard/AddNotice";
 
 export const router = createBrowserRouter([
   {
@@ -38,8 +40,9 @@ export const router = createBrowserRouter([
         path: "users",
         element: <Users />,
       },
+      
       {
-        path: "setting",
+        path: "setting/security",
         element: <Setting/>,
       },
       {
@@ -49,6 +52,14 @@ export const router = createBrowserRouter([
       {
         path: "notice-board",
         element: <NoticeBoard/>,
+      },
+      {
+        path: "notice/all",
+        element: <NoticeAll/>,
+      },
+      {
+        path: "notice/add",
+        element: <AddNotice/>,
       },
       {
         path: "profile",
