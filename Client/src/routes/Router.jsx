@@ -11,6 +11,7 @@ import Profile from "../components/dashboard/profile/Profile";
 import Home from "../components/Home/Home";
 import NoticeAll from "../components/dashboard/noticeBoard/NoticeAll";
 import AddNotice from "../components/dashboard/noticeBoard/AddNotice";
+import About from "../components/about/About";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
       {
         path:"/home",
         element: <Home />,
+      },
+      {
+        path:"/about",
+        element: <About />,
       },
     ],
   },
@@ -54,7 +59,7 @@ export const router = createBrowserRouter([
         element: <NoticeBoard/>,
       },
       {
-        path: "notice/all",
+        path: "notice",
         element: <NoticeAll/>,
       },
       {

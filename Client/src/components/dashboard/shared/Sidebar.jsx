@@ -55,7 +55,7 @@ const Sidebar = ({ setOpen }) => {
       router: "Notice Board",
       icon: <FaBell />,
       children: [
-        { path: "/dashboard/notice/all", router: "All Notice" },
+        { path: "/dashboard/notice", router: "All Notice" },
         { path: "/dashboard/notice/add", router: "Add Notice" },
       ],
     },
